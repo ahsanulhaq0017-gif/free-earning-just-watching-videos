@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Yoga Fitness Website</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+  header { background: #4CAF50; color: white; padding: 10px; text-align: center; }
+  nav { display: flex; justify-content: center; background: #f1f1f1; padding: 10px; }
+  nav button { margin: 0 10px; padding: 10px 20px; cursor: pointer; }
+  section { display: none; padding: 20px; }
+  .active { display: block; }
+  input { display: block; margin: 10px 0; padding: 8px; width: 100%; }
+  button { padding: 10px 20px; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Yoga Fitness Platform</h1>
+</header>
+
+<nav>
+  <button onclick="showSection('home')">Home</button>
+  <button onclick="showSection('register')">Register</button>
+  <button onclick="showSection('login')">Login</button>
+  <button onclick="showSection('profile')">Profile</button>
+  <button onclick="showSection('videos')">Videos</button>
+</nav>
+
+<!-- Home Section -->
+<section id="home" class="active">
+  <h2>Welcome to Yoga Fitness Platform</h2>
+  <p>Join us to view and monetize yoga videos!</p>
+</section>
+
+<!-- Register Section -->
+<section id="register">
+  <h2>Register</h2>
+  <input type="text" id="regName" placeholder="Name" />
+  <input type="email" id="regEmail" placeholder="Email" />
+  <input type="password" id="regPassword" placeholder="Password" />
+  <button onclick="register()">Register</button>
+</section>
+
+<!-- Login Section -->
+<section id="login">
+  <h2>Login</h2>
+  <input type="email" id="loginEmail" placeholder="Email" />
+  <input type="password" id="loginPassword" placeholder="Password" />
+  <button onclick="login()">Login</button>
+</section>
+
+<!-- Profile Section -->
+<section id="profile">
+  <h2>User Profile</h2>
+  <p>Name: <span id="userName"></span></p>
+  <p>Email: <span id="userEmail"></span></p>
+  <input type="text" id="youtubeLink" placeholder="Link to YouTube Channel" />
+  <button onclick="linkChannel()">Link Channel</button>
+  <h3>Linked Channel:</h3>
+  <p id="linkedChannel">No channel linked</p>
+</section>
+
+<!-- Videos Section -->
+<section id="videos">
+  <h2>Yoga Videos</h2>
+  <video width="320" height="240" controls>
+    <source src="sample-yoga-video.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <h3>Monetize Your Videos</h3>
+  <button onclick="monetize()">Enable Monetization</button>
+</section>
+
+<script>
+  let currentUser = null;
+
+  function showSection(sectionId) {
+    document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+    document.getElementById(sectionId).classList.add('active');
+  }
+
+  function register() {
+    const name = document.getElementById('regName').value;
+    const email = document.getElementById('regEmail').value;
+    const password = document.getElementById('regPassword').value;
+    // For demo, store in localStorage
+    localStorage.setItem('user', JSON.stringify({ name, email, password }));
+    alert('Registration successful! Please login.');
+    showSection('login');
+  }
+
+  function login() {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.email === email && user.password === password) {
+      currentUser = user;
+      document.getElementById('userName').innerText = user.name;
+      document.getElementById('userEmail').innerText = user.email;
+      showSection('profile');
+    } else {
+      alert('Invalid credentials!');
+    }
+  }
+
+  function linkChannel() {
+    const link = document.getElementById('youtubeLink').value;
+    if (link) {
+      document.getElementById('linkedChannel').innerText = link;
+    }
+  }
+
+  function monetize() {
+    alert('Monetization enabled for your videos!');
+  }
+</script>
+
+</body>
+</html>
